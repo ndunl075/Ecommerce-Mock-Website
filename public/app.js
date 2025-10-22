@@ -8,7 +8,7 @@ let categories = [];
 document.addEventListener('DOMContentLoaded', function() {
     loadCategories();
     loadProducts();
-    updateCartDisplay();
+    updateCartCount();
     checkAuth();
 });
 
@@ -112,39 +112,31 @@ function viewProduct(productId) {
 }
 
 // Add to cart
-async function addToCart(productId) {
-    if (!currentUser) {
-        alert('Please login to add items to cart');
-        window.location.href = '/login';
-        return;
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingItem = cart.find(item => item.productId === productId);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ productId, quantity: 1 });
     }
     
-    try {
-        const response = await fetch(`/api/cart/${currentUser.id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                productId: productId,
-                quantity: 1
-            })
-        });
-        
-        const updatedCart = await response.json();
-        cart = updatedCart;
-        updateCartDisplay();
-        showNotification('Product added to cart!');
-    } catch (error) {
-        console.error('Error adding to cart:', error);
-        showNotification('Error adding product to cart', 'error');
-    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    
+    // Show success message
+    showNotification('Product added to cart!', 'success');
 }
 
-// Update cart display
-function updateCartDisplay() {
+// Update cart count
+function updateCartCount() {
     const cartCount = document.getElementById('cartCount');
     if (cartCount) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         cartCount.textContent = totalItems;
     }
