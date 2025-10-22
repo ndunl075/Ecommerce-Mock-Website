@@ -451,6 +451,14 @@
     <!-- Cart Content -->
     <section class="cart-content">
         <div class="container">
+            <!-- Debug Section -->
+            <div style="background: #f8f9fa; padding: 20px; margin-bottom: 20px; border-radius: 10px;">
+                <h4>Debug Info:</h4>
+                <p>Cart items in localStorage: <span id="debugCartCount">0</span></p>
+                <button onclick="debugCart()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Debug Cart</button>
+                <button onclick="clearCart()" style="padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px;">Clear Cart</button>
+            </div>
+            
             <div class="row">
                 <div class="col-md-8">
                     <div class="cart-items" id="cartItems">
@@ -528,15 +536,20 @@
 
     <script>
         // Cart functionality
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let cart = [];
         let products = [];
 
         // Load cart items
         async function loadCartItems() {
             try {
+                // Reload cart from localStorage
+                cart = JSON.parse(localStorage.getItem('cart')) || [];
+                console.log('Cart loaded from localStorage:', cart);
+                
                 const response = await fetch('/api/products');
                 const data = await response.json();
                 products = data.products;
+                console.log('Products loaded:', products.length);
                 displayCartItems();
                 updateCartSummary();
             } catch (error) {
@@ -656,10 +669,31 @@
             }
         }
 
+        // Debug functions
+        function debugCart() {
+            const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+            console.log('Current cart in localStorage:', cartData);
+            alert('Cart data: ' + JSON.stringify(cartData, null, 2));
+        }
+        
+        function clearCart() {
+            localStorage.removeItem('cart');
+            cart = [];
+            displayCartItems();
+            updateCartSummary();
+            updateDebugInfo();
+        }
+        
+        function updateDebugInfo() {
+            const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+            document.getElementById('debugCartCount').textContent = cartData.length;
+        }
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             loadCartItems();
             updateCartCount();
+            updateDebugInfo();
         });
     </script>
 </body>
