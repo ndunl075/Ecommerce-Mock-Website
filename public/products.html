@@ -881,21 +881,39 @@
         // Load products
         async function loadProducts() {
             try {
-                const params = new URLSearchParams();
-                Object.entries(filters).forEach(([key, value]) => {
-                    if (value) params.set(key, value);
-                });
-                params.set('page', currentPage);
-                params.set('limit', 12);
-
-                const response = await fetch(`/api/products?${params}`);
-                const data = await response.json();
+                // Use shared products data
+                products = getProducts();
+                console.log('Products loaded:', products.length);
                 
-                products = data.products;
-                totalPages = data.totalPages;
+                // Apply filters
+                let filteredProducts = products;
+                
+                if (filters.category) {
+                    filteredProducts = filteredProducts.filter(p => p.category === filters.category);
+                }
+                
+                if (filters.search) {
+                    const searchTerm = filters.search.toLowerCase();
+                    filteredProducts = filteredProducts.filter(p => 
+                        p.name.toLowerCase().includes(searchTerm) ||
+                        p.description.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                if (filters.minPrice) {
+                    filteredProducts = filteredProducts.filter(p => p.price >= filters.minPrice);
+                }
+                
+                if (filters.maxPrice) {
+                    filteredProducts = filteredProducts.filter(p => p.price <= filters.maxPrice);
+                }
+                
+                // Update products with filtered results
+                products = filteredProducts;
+                totalPages = Math.ceil(products.length / 12);
                 
                 displayProducts();
-                updateProductsCount(data.total);
+                updateProductsCount(products.length);
                 updatePagination();
             } catch (error) {
                 console.error('Error loading products:', error);
