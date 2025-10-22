@@ -114,7 +114,10 @@ function viewProduct(productId) {
 // Add to cart
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
-    if (!product) return;
+    if (!product) {
+        console.error('Product not found:', productId);
+        return;
+    }
 
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const existingItem = cart.find(item => item.productId === productId);
@@ -126,6 +129,7 @@ function addToCart(productId) {
     }
     
     localStorage.setItem('cart', JSON.stringify(cart));
+    console.log('Cart saved to localStorage:', cart);
     updateCartCount();
     
     // Show success message
