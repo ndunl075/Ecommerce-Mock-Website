@@ -1,0 +1,19 @@
+{
+  "name": "ecommerce-store",
+  "version": "1.0.0",
+  "description": "A modern ecommerce website created by Apex Digital Partners",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "keywords": ["ecommerce", "nodejs", "express", "shopping", "store"],
+  "author": "Apex Digital Partners",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

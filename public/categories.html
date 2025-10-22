@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Ecommerce Store</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .categories-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .categories-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .categories-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 80px 0;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .category-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        
+        .category-card:hover .category-icon {
+            color: #28a745;
+        }
+        
+        .category-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .category-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .category-count {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: #007bff;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .category-card:hover .category-count {
+            background: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <i class="fas fa-store"></i> Ecommerce Store
+                </a>
+                
+                <nav class="main-nav">
+                    <a href="/">Home</a>
+                    <a href="/products">Products</a>
+                    <a href="/categories" class="active">Categories</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search products..." id="searchInput">
+                        <button onclick="searchProducts()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="user-actions">
+                        <a href="/login" class="btn-login" id="loginBtn">
+                            <i class="fas fa-user"></i> Login
+                        </a>
+                        <a href="/cart" class="cart-btn" id="cartBtn">
+                            <i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Categories Hero -->
+    <section class="categories-hero">
+        <div class="container">
+            <h1>Shop by Category</h1>
+            <p>Discover products organized by category for easy browsing</p>
+        </div>
+    </section>
+
+    <!-- Categories Grid -->
+    <section class="categories-section">
+        <div class="container">
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Categories will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-store"></i> Ecommerce Store</h3>
+                    <p>Your one-stop shop for quality products at great prices.</p>
+                    <p><small>Created by <strong>Apex Digital Partners</strong></small></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/products">Products</a></li>
+                        <li><a href="/categories">Categories</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="/products?category=Electronics">Electronics</a></li>
+                        <li><a href="/products?category=Fashion">Fashion</a></li>
+                        <li><a href="/products?category=Home & Kitchen">Home & Kitchen</a></li>
+                        <li><a href="/products?category=Sports & Fitness">Sports & Fitness</a></li>
+                        <li><a href="/products?category=Books">Books</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@ecommerce.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Commerce St, City</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Ecommerce Store. All rights reserved. | Created by <strong>Apex Digital Partners</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentUser = null;
+        let cart = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCategories();
+            checkAuth();
+            loadCart();
+        });
+
+        // Load categories
+        async function loadCategories() {
+            try {
+                const response = await fetch('/api/categories');
+                const categories = await response.json();
+                displayCategories(categories);
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        // Display categories
+        function displayCategories(categories) {
+            const grid = document.getElementById('categoriesGrid');
+            
+            const categoryData = [
+                {
+                    name: 'Electronics',
+                    icon: 'fas fa-laptop',
+                    description: 'Latest technology and gadgets',
+                    count: 4
+                },
+                {
+                    name: 'Fashion',
+                    icon: 'fas fa-tshirt',
+                    description: 'Trendy clothing and accessories',
+                    count: 1
+                },
+                {
+                    name: 'Home & Kitchen',
+                    icon: 'fas fa-home',
+                    description: 'Everything for your home',
+                    count: 1
+                },
+                {
+                    name: 'Sports & Fitness',
+                    icon: 'fas fa-dumbbell',
+                    description: 'Gear for active lifestyle',
+                    count: 1
+                },
+                {
+                    name: 'Books',
+                    icon: 'fas fa-book',
+                    description: 'Knowledge and entertainment',
+                    count: 1
+                }
+            ];
+            
+            grid.innerHTML = categoryData.map(category => `
+                <a href="/products?category=${encodeURIComponent(category.name)}" class="category-card">
+                    <div class="category-icon">
+                        <i class="${category.icon}"></i>
+                    </div>
+                    <h3 class="category-name">${category.name}</h3>
+                    <p class="category-description">${category.description}</p>
+                    <div class="category-count">${category.count} Products</div>
+                </a>
+            `).join('');
+        }
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            if (token && user) {
+                currentUser = JSON.parse(user);
+                updateAuthDisplay();
+            }
+        }
+
+        // Update authentication display
+        function updateAuthDisplay() {
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn && currentUser) {
+                loginBtn.innerHTML = `<i class="fas fa-user"></i> ${currentUser.name}`;
+                loginBtn.href = '/profile';
+            }
+        }
+
+        // Load cart
+        async function loadCart() {
+            if (!currentUser) return;
+            
+            try {
+                const response = await fetch(`/api/cart/${currentUser.id}`);
+                cart = await response.json();
+                updateCartDisplay();
+            } catch (error) {
+                console.error('Error loading cart:', error);
+            }
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+        }
+
+        // Search products
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value;
+            if (searchTerm.trim()) {
+                window.location.href = `/products?search=${encodeURIComponent(searchTerm)}`;
+            }
+        }
+    </script>
+</body>
+</html>

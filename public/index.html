@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Store - Home</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <i class="fas fa-store"></i> Ecommerce Store
+                </a>
+                
+                <nav class="main-nav">
+                    <a href="/">Home</a>
+                    <a href="/products">Products</a>
+                    <a href="/categories">Categories</a>
+                    <a href="/about">About</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search products..." id="searchInput">
+                        <button onclick="searchProducts()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="user-actions">
+                        <a href="/login" class="btn-login" id="loginBtn">
+                            <i class="fas fa-user"></i> Login
+                        </a>
+                        <a href="/cart" class="cart-btn" id="cartBtn">
+                            <i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Welcome to Our Store</h1>
+                <p>Discover amazing products at unbeatable prices</p>
+                <a href="/products" class="btn btn-primary">
+                    <i class="fas fa-shopping-bag"></i> Shop Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <h2>Shop by Category</h2>
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Categories will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Products</h2>
+                <a href="/products" class="btn btn-outline">View All Products</a>
+            </div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section class="featured-projects">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <p>Discover our latest and most popular products</p>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Technology</h3>
+                    <p>Latest smartphones and mobile accessories</p>
+                    <a href="/products?category=Electronics" class="btn btn-primary">Explore</a>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Home & Living</h3>
+                    <p>Everything you need for your home</p>
+                    <a href="/products?category=Home & Kitchen" class="btn btn-primary">Explore</a>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Fitness & Sports</h3>
+                    <p>Gear up for an active lifestyle</p>
+                    <a href="/products?category=Sports & Fitness" class="btn btn-primary">Explore</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2>Why Choose Us?</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h3>Fast Shipping</h3>
+                    <p>Free shipping on orders over $100. Fast and reliable delivery to your doorstep.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure Payment</h3>
+                    <p>Your payment information is safe and secure with our encrypted checkout process.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Our customer support team is available around the clock to help you with any questions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-store"></i> Ecommerce Store</h3>
+                    <p>Your one-stop shop for quality products at great prices.</p>
+                    <p><small>Created by <strong>Apex Digital Partners</strong></small></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/products">Products</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="/products?category=Electronics">Electronics</a></li>
+                        <li><a href="/products?category=Fashion">Fashion</a></li>
+                        <li><a href="/products?category=Home & Kitchen">Home & Kitchen</a></li>
+                        <li><a href="/products?category=Sports & Fitness">Sports & Fitness</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@ecommerce.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Commerce St, City</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Ecommerce Store. All rights reserved. | Created by <strong>Apex Digital Partners</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

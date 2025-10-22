@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Ecommerce Store</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .product-detail {
+            padding: 40px 0;
+        }
+        
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        
+        .product-images {
+            position: sticky;
+            top: 100px;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .thumbnail-images {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #007bff;
+        }
+        
+        .product-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .product-brand {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .current-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .original-price {
+            font-size: 1.5rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+        
+        .product-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        
+        .product-features {
+            margin-bottom: 30px;
+        }
+        
+        .product-features h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .features-list {
+            list-style: none;
+        }
+        
+        .features-list li {
+            padding: 8px 0;
+            color: #666;
+        }
+        
+        .features-list li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #f8f9fa;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .add-to-cart-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .product-specifications {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .specifications-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .specifications-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .specifications-table td:first-child {
+            font-weight: bold;
+            color: #333;
+            width: 40%;
+        }
+        
+        .specifications-table td:last-child {
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .product-images {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <i class="fas fa-store"></i> Ecommerce Store
+                </a>
+                
+                <nav class="main-nav">
+                    <a href="/">Home</a>
+                    <a href="/products">Products</a>
+                    <a href="/categories">Categories</a>
+                    <a href="/about">About</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search products..." id="searchInput">
+                        <button onclick="searchProducts()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="user-actions">
+                        <a href="/login" class="btn-login" id="loginBtn">
+                            <i class="fas fa-user"></i> Login
+                        </a>
+                        <a href="/cart" class="cart-btn" id="cartBtn">
+                            <i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Detail -->
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-container" id="productContainer">
+                <!-- Product details will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-store"></i> Ecommerce Store</h3>
+                    <p>Your one-stop shop for quality products at great prices.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/products">Products</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="/products?category=Electronics">Electronics</a></li>
+                        <li><a href="/products?category=Fashion">Fashion</a></li>
+                        <li><a href="/products?category=Home & Kitchen">Home & Kitchen</a></li>
+                        <li><a href="/products?category=Sports & Fitness">Sports & Fitness</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@ecommerce.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Commerce St, City</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Ecommerce Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentUser = null;
+        let cart = [];
+        let product = null;
+        let currentImageIndex = 0;
+        let quantity = 1;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const productId = window.location.pathname.split('/').pop();
+            loadProduct(productId);
+            checkAuth();
+            loadCart();
+        });
+
+        // Load product details
+        async function loadProduct(productId) {
+            try {
+                const response = await fetch(`/api/products/${productId}`);
+                product = await response.json();
+                displayProduct();
+            } catch (error) {
+                console.error('Error loading product:', error);
+                document.getElementById('productContainer').innerHTML = '<h2>Product not found</h2>';
+            }
+        }
+
+        // Display product
+        function displayProduct() {
+            if (!product) return;
+            
+            const container = document.getElementById('productContainer');
+            container.innerHTML = `
+                <div class="product-images">
+                    <img src="${product.images[currentImageIndex]}" alt="${product.name}" class="main-image" id="mainImage">
+                    <div class="thumbnail-images">
+                        ${product.images.map((img, index) => `
+                            <img src="${img}" alt="${product.name}" class="thumbnail ${index === 0 ? 'active' : ''}" 
+                                 onclick="changeImage(${index})">
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="product-info">
+                    <h1>${product.name}</h1>
+                    <p class="product-brand">${product.brand}</p>
+                    
+                    <div class="product-rating">
+                        <div class="stars">${generateStars(product.rating)}</div>
+                        <span class="rating-text">${product.rating} (${product.reviews} reviews)</span>
+                    </div>
+                    
+                    <div class="product-price">
+                        <span class="current-price">$${product.price}</span>
+                        ${product.originalPrice ? `<span class="original-price">$${product.originalPrice}</span>` : ''}
+                    </div>
+                    
+                    <p class="product-description">${product.longDescription}</p>
+                    
+                    <div class="product-features">
+                        <h3>Key Features</h3>
+                        <ul class="features-list">
+                            ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="quantity-selector">
+                        <label>Quantity:</label>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1" max="${product.stock}" 
+                                   onchange="setQuantity(this.value)">
+                            <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                        </div>
+                        <span>${product.stock} in stock</span>
+                    </div>
+                    
+                    <button class="add-to-cart-btn" onclick="addToCart()">
+                        <i class="fas fa-cart-plus"></i> Add to Cart - $${(product.price * quantity).toFixed(2)}
+                    </button>
+                </div>
+            `;
+        }
+
+        // Change product image
+        function changeImage(index) {
+            currentImageIndex = index;
+            document.getElementById('mainImage').src = product.images[index];
+            
+            // Update thumbnail selection
+            document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === index);
+            });
+        }
+
+        // Change quantity
+        function changeQuantity(delta) {
+            const newQuantity = Math.max(1, Math.min(product.stock, quantity + delta));
+            setQuantity(newQuantity);
+        }
+
+        // Set quantity
+        function setQuantity(newQuantity) {
+            quantity = Math.max(1, Math.min(product.stock, parseInt(newQuantity)));
+            document.querySelector('.quantity-input').value = quantity;
+            document.querySelector('.add-to-cart-btn').innerHTML = 
+                `<i class="fas fa-cart-plus"></i> Add to Cart - $${(product.price * quantity).toFixed(2)}`;
+        }
+
+        // Add to cart
+        async function addToCart() {
+            if (!currentUser) {
+                alert('Please login to add items to cart');
+                window.location.href = '/login';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/cart/${currentUser.id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId: product.id,
+                        quantity: quantity
+                    })
+                });
+                
+                const updatedCart = await response.json();
+                cart = updatedCart;
+                updateCartDisplay();
+                showNotification(`${product.name} added to cart!`);
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showNotification('Error adding product to cart', 'error');
+            }
+        }
+
+        // Generate star rating
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            let stars = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            if (token && user) {
+                currentUser = JSON.parse(user);
+                updateAuthDisplay();
+            }
+        }
+
+        // Update authentication display
+        function updateAuthDisplay() {
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn && currentUser) {
+                loginBtn.innerHTML = `<i class="fas fa-user"></i> ${currentUser.name}`;
+                loginBtn.href = '/profile';
+            }
+        }
+
+        // Load cart
+        async function loadCart() {
+            if (!currentUser) return;
+            
+            try {
+                const response = await fetch(`/api/cart/${currentUser.id}`);
+                cart = await response.json();
+                updateCartDisplay();
+            } catch (error) {
+                console.error('Error loading cart:', error);
+            }
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+        }
+
+        // Search products
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value;
+            if (searchTerm.trim()) {
+                window.location.href = `/products?search=${encodeURIComponent(searchTerm)}`;
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#28a745' : '#dc3545'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 3000;
+                font-weight: bold;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
