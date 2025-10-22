@@ -48,12 +48,56 @@ function displayCategories() {
 // Load products
 async function loadProducts() {
     try {
-        const response = await fetch('/api/products?limit=3');
+        const response = await fetch('/api/products');
         const data = await response.json();
         products = data.products;
-        displayProducts(products);
+        
+        // Display only 3 featured products on homepage
+        const featuredProducts = products.slice(0, 3);
+        displayProducts(featuredProducts);
+        
+        // Debug: Log products to console
+        console.log('Products loaded:', products.length);
+        console.log('Featured products:', featuredProducts);
     } catch (error) {
         console.error('Error loading products:', error);
+        // Fallback: Use hardcoded products
+        products = [
+            {
+                id: 1,
+                name: "Wireless Headphones",
+                price: 99.99,
+                originalPrice: 149.99,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
+                category: "Electronics",
+                rating: 4.5,
+                reviews: 128
+            },
+            {
+                id: 2,
+                name: "Smart Watch",
+                price: 199.99,
+                originalPrice: 299.99,
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
+                category: "Electronics",
+                rating: 4.8,
+                reviews: 89
+            },
+            {
+                id: 3,
+                name: "Bluetooth Speaker",
+                price: 79.99,
+                originalPrice: 119.99,
+                image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400",
+                category: "Electronics",
+                rating: 4.3,
+                reviews: 156
+            }
+        ];
+        
+        const featuredProducts = products.slice(0, 3);
+        displayProducts(featuredProducts);
+        console.log('Using fallback products:', featuredProducts);
     }
 }
 
