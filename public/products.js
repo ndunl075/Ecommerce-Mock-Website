@@ -49,7 +49,7 @@ const PRODUCTS_DATA = [
         name: "Wireless Mouse",
         price: 49.99,
         originalPrice: 79.99,
-        image: "https://images.unsplash.com/photo-1527864550417-7f91c4da4f94?w=400&h=400&fit=crop",
+        image: "https://images.unsplash.com/photo-1527864550417-7f91c4da4f94?w=400&auto=format&fit=crop",
         category: "Electronics",
         rating: 4.4,
         reviews: 87,

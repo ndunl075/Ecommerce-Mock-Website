@@ -876,7 +876,7 @@
             checkAuth();
             loadCart();
             setupFilters();
-            updateCartCount(); // Initialize cart count
+            // updateCartCount will be called after loadCart completes
         });
 
         // Load products
@@ -1172,25 +1172,11 @@
 
         // Load cart
         async function loadCart() {
-            if (!currentUser) return;
-            
-            try {
-                const response = await fetch(`/api/cart/${currentUser.id}`);
-                cart = await response.json();
-                updateCartDisplay();
-            } catch (error) {
-                console.error('Error loading cart:', error);
-            }
+            // Load cart from localStorage
+            cart = JSON.parse(localStorage.getItem('cart')) || [];
+            updateCartCount();
         }
 
-        // Update cart display
-        function updateCartDisplay() {
-            const cartCount = document.getElementById('cartCount');
-            if (cartCount) {
-                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-                cartCount.textContent = totalItems;
-            }
-        }
 
         // Search products
         function searchProducts() {
