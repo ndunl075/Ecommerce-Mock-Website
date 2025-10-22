@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🛒 Ecommerce Store
 
 A modern, responsive ecommerce website built with Node.js and Express. Created by **Apex Digital Partners**.
@@ -74,3 +75,7 @@ Created by **Apex Digital Partners**
 ## 📄 License
 
 MIT License - feel free to use for your projects!
+=======
+# Ecommerce-Mock-Website
+Modern ecommerce website with Node.js, Express, and responsive design - Created by Apex Digital Partners
+>>>>>>> aeb20ec1d2fd66b1aee5623cc9b6a70fd0c4eff4
