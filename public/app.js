@@ -48,7 +48,7 @@ function displayCategories() {
 // Load products
 async function loadProducts() {
     try {
-        const response = await fetch('/api/products?limit=8');
+        const response = await fetch('/api/products?limit=3');
         const data = await response.json();
         products = data.products;
         displayProducts(products);
