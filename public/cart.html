@@ -417,6 +417,7 @@
                     <a href="/products">Products</a>
                     <a href="/categories">Categories</a>
                     <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
                 </nav>
                 
                 <div class="header-actions">
@@ -451,6 +452,15 @@
     <!-- Cart Content -->
     <section class="cart-content">
         <div class="container">
+            
+            <!-- Debug Section -->
+            <div style="background: #f8f9fa; padding: 20px; margin-bottom: 20px; border-radius: 10px; border: 2px solid #007bff;">
+                <h4>Debug Cart Functionality:</h4>
+                <p>Cart items in localStorage: <span id="debugCartCount">0</span></p>
+                <p>Products loaded: <span id="debugProductsCount">0</span></p>
+                <button onclick="testAddToCart()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">Test Add Product 1</button>
+                <button onclick="clearCart()" style="padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Clear Cart</button>
+            </div>
             
             <div class="row">
                 <div class="col-md-8">
@@ -538,11 +548,13 @@
                 // Reload cart from localStorage
                 cart = JSON.parse(localStorage.getItem('cart')) || [];
                 console.log('Cart loaded from localStorage:', cart);
+                console.log('Cart items count:', cart.length);
                 
                 // Use shared products data
                 products = getProducts();
-                
                 console.log('Products loaded:', products.length);
+                console.log('Product IDs:', products.map(p => p.id));
+                
                 displayCartItems();
                 updateCartSummary();
             } catch (error) {
@@ -553,6 +565,10 @@
         // Display cart items
         function displayCartItems() {
             const cartItemsContainer = document.getElementById('cartItems');
+            
+            console.log('Displaying cart items. Cart length:', cart.length);
+            console.log('Cart contents:', cart);
+            console.log('Products available:', products.length);
             
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = `
@@ -663,10 +679,35 @@
         }
 
 
+        // Debug functions
+        function testAddToCart() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ productId: 1, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            console.log('Test: Added product 1 to cart');
+            loadCartItems();
+            updateDebugInfo();
+        }
+        
+        function clearCart() {
+            localStorage.removeItem('cart');
+            cart = [];
+            displayCartItems();
+            updateCartSummary();
+            updateDebugInfo();
+        }
+        
+        function updateDebugInfo() {
+            const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+            document.getElementById('debugCartCount').textContent = cartData.length;
+            document.getElementById('debugProductsCount').textContent = products.length;
+        }
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             loadCartItems();
             updateCartCount();
+            updateDebugInfo();
         });
     </script>
     <script src="products.js"></script>
