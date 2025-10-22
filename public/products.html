@@ -876,6 +876,7 @@
             checkAuth();
             loadCart();
             setupFilters();
+            updateCartCount(); // Initialize cart count
         });
 
         // Load products
@@ -1009,6 +1010,16 @@
             
             // Show success message
             showNotification('Product added to cart!', 'success');
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
         }
 
         // Setup filters
