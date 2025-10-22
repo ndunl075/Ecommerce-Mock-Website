@@ -765,9 +765,13 @@
         // Load product details
         async function loadProduct(productId) {
             try {
-                const response = await fetch(`/api/products/${productId}`);
-                product = await response.json();
-                displayProduct();
+                // Use shared products data
+                product = getProductById(parseInt(productId));
+                if (product) {
+                    displayProduct();
+                } else {
+                    document.getElementById('productContainer').innerHTML = '<h2>Product not found</h2>';
+                }
             } catch (error) {
                 console.error('Error loading product:', error);
                 document.getElementById('productContainer').innerHTML = '<h2>Product not found</h2>';
@@ -857,33 +861,27 @@
         }
 
         // Add to cart
-        async function addToCart() {
-            if (!currentUser) {
-                alert('Please login to add items to cart');
-                window.location.href = '/login';
+        function addToCart() {
+            if (!product) {
+                console.error('Product not found');
                 return;
             }
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.productId === product.id);
             
-            try {
-                const response = await fetch(`/api/cart/${currentUser.id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        productId: product.id,
-                        quantity: quantity
-                    })
-                });
-                
-                const updatedCart = await response.json();
-                cart = updatedCart;
-                updateCartDisplay();
-                showNotification(`${product.name} added to cart!`);
-            } catch (error) {
-                console.error('Error adding to cart:', error);
-                showNotification('Error adding product to cart', 'error');
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ productId: product.id, quantity: quantity });
             }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            console.log('Product added to cart:', product.id, 'Quantity:', quantity);
+            console.log('Cart saved to localStorage:', cart);
+            
+            // Show success message
+            showNotification(`${product.name} added to cart!`, 'success');
         }
 
         // Generate star rating
@@ -983,5 +981,6 @@
             }, 3000);
         }
     </script>
+    <script src="products.js"></script>
 </body>
 </html>
